@@ -1,2 +1,4 @@
-# demo-exporter
+demo-exporter
+=============
+
 Demo Prometheus exporter
