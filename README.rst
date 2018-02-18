@@ -3,6 +3,10 @@ Demo Exporter
 
 Demo Prometheus exporter
 
+Simulates a Prometheus exporter with command line arguments, config file and secrets.
+The /openshift-templates_ direcotry includes templates and instructions
+for deployinng the exporter in an openshift cluster. 
+
 Running
 =======
 ``./demo-exporter/app.py --config demo-exporter/example.yml``
