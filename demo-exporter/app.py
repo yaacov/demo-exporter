@@ -5,13 +5,14 @@ import random
 import sys
 import yaml
 
-"""
-Prometheus demo exporter
-"""
 try:
     from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
 except ImportError:
     from http.server import BaseHTTPRequestHandler, HTTPServer
+
+"""
+Prometheus demo exporter
+"""
 
 PORT = 8080
 URL = '0.0.0.0'
