@@ -1,9 +1,7 @@
 Demo Exporter
 =============
 
-Demo Prometheus exporter
-
-Simulates a Prometheus exporter with command line arguments, config file and secrets.
+Demo Prometheus exporter, simulates a Prometheus exporter with command line arguments, config file and secrets.
 
 The `openshift-templates <https://github.com/yaacov/demo-exporter/tree/master/openshift-templates>`_ direcotry includes templates and instructions
 for deployinng the exporter in an openshift cluster. 
