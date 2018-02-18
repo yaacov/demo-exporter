@@ -5,7 +5,7 @@ Demo Prometheus exporter
 
 Running
 =======
-``./demo-exporter/app.py``
+``./demo-exporter/app.py --config demo-exporter/example.yml``
 
 ``curl http://localhost:8080/metrics``
 
