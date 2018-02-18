@@ -21,3 +21,8 @@ Running as a Container
 ::
 
     docker run -it --rm --name demo-exporter yaacov/demo-exporter
+    
+Getting the container ip:
+
+::
+    docker inspect demo-exporter | grep IPAddress\" | head -n1 | egrep -o '[0-9.]+'
