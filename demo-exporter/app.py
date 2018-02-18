@@ -44,10 +44,7 @@ def run(server_class=HTTPServer, handler_class=ExportsHandler, port=PORT):
     httpd = server_class(server_address, handler_class)
 
     print('Starting Prometheus Exporter ... (use Ctrl-C to exit)')
-    try:
-        httpd.serve_forever()
-    except KeyboardInterrupt:
-        sys.exit(1)
+    httpd.serve_forever()
 
 
 if __name__ == "__main__":
@@ -67,4 +64,7 @@ if __name__ == "__main__":
         sys.exit(1)
 
     # run server
-    run(port=args.port)
+    try:
+        run(port=args.port)
+    except KeyboardInterrupt:
+        sys.exit(1)
