@@ -25,4 +25,5 @@ Running as a Container
 Getting the container ip:
 
 ::
+
     docker inspect demo-exporter | grep IPAddress\" | head -n1 | egrep -o '[0-9.]+'
