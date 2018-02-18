@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+import argparse
 import random
+import sys
+import yaml
 
 """
 Prometheus demo exporter
@@ -12,39 +15,56 @@ except ImportError:
 
 PORT = 8080
 URL = '0.0.0.0'
-METRICS = [
-    {'name': 'metric', 'tags': 'tag="hello"'},
-    {'name': 'metric', 'tags': 'tag="world"'},
-    {'name': 'events', 'tags': 'tag="hello"'},
-    {'name': 'events', 'tags': 'tag="world"'},
-]
+CONFIG_FILE = 'example.yml'
 
 
 class ExportsHandler(BaseHTTPRequestHandler):
+    global config
+
     def do_GET(self):
         self.send_response(200)
         self.send_header('Content-type', 'text/html')
         self.end_headers()
 
-        for m in METRICS:
-            line = "{name}{{{tags}}} {value}\n".format(
-                name=m['name'], tags=m['tags'],
-                value=random.randint(1, 420) / 100.0)
-            self.wfile.write(line.encode('utf8'))
+        for m in config['metrics']:
+            for d in m['aws_dimensions']:
+                line = "{name}{{dimension=\"{dimension}\"}} {value}\n".format(
+                    name=m['aws_metric_name'], dimension=d,
+                    value=random.randint(1, 420) / 100.0)
+                self.wfile.write(line.encode('utf8'))
+
+
+def read_config(filename):
+    with open(filename, 'r') as stream:
+        return yaml.load(stream)
 
 
 def run(server_class=HTTPServer, handler_class=ExportsHandler, port=PORT):
     server_address = (URL, port)
     httpd = server_class(server_address, handler_class)
 
-    print('Starting Prometheus Exporter...')
-    httpd.serve_forever()
+    print('Starting Prometheus Exporter ... (use Ctrl-C to exit)')
+    try:
+        httpd.serve_forever()
+    except KeyboardInterrupt:
+        sys.exit(1)
 
 
 if __name__ == "__main__":
-    from sys import argv
+    # parse command line args
+    parser = argparse.ArgumentParser(description='Prometheus Exporter.')
+    parser.add_argument('--config', dest='config', default=CONFIG_FILE,
+                        help='config file')
+    parser.add_argument('--port', dest='port', default=PORT,
+                        help='server port')
+    args = parser.parse_args()
 
-    if len(argv) == 2:
-        run(port=int(argv[1]))
-    else:
-        run()
+    # read config file
+    try:
+        config = read_config(args.config)
+    except Exception as e:
+        print(e)
+        sys.exit(1)
+
+    # run server
+    run(port=args.port)
