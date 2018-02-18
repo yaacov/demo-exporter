@@ -14,15 +14,6 @@ b. In this example schema is always "http"
 Usage
 =====
 
-Remove old exporter:
-
-::
-
-    oc process -f demo-exporter.yml \
-      -p APPNAME=my-exporter \
-      -p EXPORTER_PORT=8080 \
-      -p EXPORTER_IMAGE=docker.io/yaacov/demo-exporter:latest | oc delete -f -
-
 Create a new exporter:
 
 ::
@@ -31,3 +22,12 @@ Create a new exporter:
       -p APPNAME=my-exporter \
       -p EXPORTER_PORT=8080 \
       -p EXPORTER_IMAGE=docker.io/yaacov/demo-exporter:latest
+
+Cleanup an old exporter (Remove all objects):
+
+::
+
+    oc process -f demo-exporter.yml \
+      -p APPNAME=my-exporter \
+      -p EXPORTER_PORT=8080 \
+      -p EXPORTER_IMAGE=docker.io/yaacov/demo-exporter:latest | oc delete -f -
