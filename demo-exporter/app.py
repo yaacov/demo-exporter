@@ -5,7 +5,10 @@ import random
 """
 Prometheus demo exporter
 """
-from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
+try:
+    from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
+except ImportError:
+    from http.server import BaseHTTPRequestHandler, HTTPServer
 
 PORT = 8080
 URL = '0.0.0.0'
@@ -24,9 +27,10 @@ class ExportsHandler(BaseHTTPRequestHandler):
         self.end_headers()
 
         for m in METRICS:
-            self.wfile.write("{name}{{{tags}}} {value}\n".format(
+            line = "{name}{{{tags}}} {value}\n".format(
                 name=m['name'], tags=m['tags'],
-                value=random.randint(1, 420) / 100.0))
+                value=random.randint(1, 420) / 100.0)
+            self.wfile.write(line.encode('utf8'))
 
 
 def run(server_class=HTTPServer, handler_class=ExportsHandler, port=PORT):
