@@ -13,6 +13,7 @@ Container
 =========
 
 ::
+
     docker build -t yaacov/demo-exporter .
     docker tag yaacov/demo-exporter docker.io/yaacov/demo-exporter:latest
     docker push docker.io/yaacov/demo-exporter
