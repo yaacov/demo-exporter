@@ -9,6 +9,22 @@ Running
 
 ``curl http://localhost:8080/metrics``
 
+Options
+=======
+
+::
+
+    ./demo-exporter/app.py  --help
+    usage: app.py [-h] [--config CONFIG] [--port PORT]
+
+    Prometheus Exporter.
+
+    optional arguments:
+      -h, --help       show this help message and exit
+      --config CONFIG  config file
+      --port PORT      server port
+
+
 Running as a Container
 ======================
 
