@@ -1,10 +1,20 @@
-demo-exporter
+Demo Exporter
 =============
 
 Demo Prometheus exporter
 
-running
+Running
 =======
 ``./app.py``
 
 ``curl http://localhost:8080/metrics``
+
+Container
+=========
+
+::
+    docker build -t yaacov/demo-exporter .
+    docker tag yaacov/demo-exporter docker.io/yaacov/demo-exporter:latest
+    docker push docker.io/yaacov/demo-exporter
+
+    docker run -it --rm --name demo-exporter yaacov/demo-exporter
