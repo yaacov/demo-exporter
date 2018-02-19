@@ -8,11 +8,11 @@ The expoter is defined by it's container image and it's port.
 Usage
 =====
 
-This method require configuration and credentioals files.
+This method require this configuration and credentioals files:
 
-  - config.yml - metric definitions file
-  - credentials - aws credentials file
-  - config - aws config file
+- config.yml - metric definitions file
+- credentials - aws credentials file
+- config - aws config file
 
 Create a ConfigMap containing the configuration file:
 -----------------------------------------------------
