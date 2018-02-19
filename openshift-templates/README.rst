@@ -34,9 +34,10 @@ This assumes that we have `exporter-config` config map and `exporter-secrets` se
       -p EXPORTER_PORT=8080 \
       -p EXPORTER_IMAGE=docker.io/yaacov/demo-exporter:latest
 
+Cleanup an old exporter (Remove all objects):
+
 ::
 
-    # Cleanup an old exporter (Remove all objects):
     oc process -f demo-exporter.yml \
       -p APPNAME=my-exporter \
       -p EXPORTER_PORT=8080 \
