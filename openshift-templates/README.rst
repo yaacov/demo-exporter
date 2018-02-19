@@ -22,11 +22,6 @@ Create a Secret containing the credentials:
     # Create secrets
     oc secrets new exporter-secrets config=config credentials=credentials
 
-::
-
-    # Check that the configmap created successfully
-    oc describe configmap exporter-config
-
 
 Create the new exporter ReplicationController:
 
