@@ -22,6 +22,9 @@ parameters:
 - description: The exporter port to use.
   name: EXPORTER_PORT
   value: "8080"
+- description: The secret path.
+  name: SECRETPATH
+  value: "/secrets"
 
 # Scrape config for service endpoints.
 #
@@ -69,16 +72,26 @@ objects:
         labels:
           name: ${APPNAME}
       spec:
+
         # Volumes must be pre congigure
         #
-        # Mount point shoul be at
-        # /etv/${app name}/config.yml
+        # Mount point shoud be at
+        # /etc/${app name}/config.yml (default APPNAME=)
+        # /${secret path}/
         volumes:
-        - name: config
+        - name: exporter-config
           configMap:
             defaultMode: 420
             name: config
+        - name: exporter-secrets
+          secret:
+            secretName: exporter-secrets
 
+        # Exporter containers
+        #
+        # Container Images of the exporter
+        # Serve Prometheus metrics at:
+        #    http://localhost:8080/metrics
         containers:
         - image: ${EXPORTER_IMAGE}
           name: ${APPNAME}
@@ -92,4 +105,6 @@ objects:
             value: /etc/${APPNAME}/config.yml
           volumeMounts:
           - mountPath: /etc/${APPNAME}
-            name: config
+            name: exporter-config
+          - mountPath: ${SECRETPATH}
+            name: exporter-secret
