@@ -10,6 +10,7 @@ try:
 except ImportError:
     from http.server import BaseHTTPRequestHandler, HTTPServer
 
+# from aws_scrapper import scrapper
 from scrapper import scrapper
 
 """
