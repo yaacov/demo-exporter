@@ -28,11 +28,12 @@ class ExportsHandler(BaseHTTPRequestHandler):
         self.end_headers()
 
         for m in config['metrics']:
-            for d in m['aws_dimensions']:
-                line = "{name}{{dimension=\"{dimension}\"}} {value}\n".format(
-                    name=m['aws_metric_name'], dimension=d,
-                    value=random.randint(1, 420) / 100.0)
-                self.wfile.write(line.encode('utf8'))
+            line = "{n}{{dimensions=\"{d}\",region=\"{r}\"}} {v}\n".format(
+                n=m['aws_metric_name'],
+                d=",".join(m['aws_dimensions']),
+                r=config['region'],
+                v=random.randint(1, 420) / 100.0)
+            self.wfile.write(line.encode('utf8'))
 
 
 def read_config(filename):
