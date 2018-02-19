@@ -107,4 +107,4 @@ objects:
           - mountPath: /etc/${APPNAME}
             name: exporter-config
           - mountPath: ${SECRETPATH}
-            name: exporter-secret
+            name: exporter-secrets
