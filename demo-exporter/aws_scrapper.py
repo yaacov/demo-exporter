@@ -40,7 +40,7 @@ def scrapper(config, data, sleep=30):
             dp = response['Datapoints']
 
             if len(dp) == 0:
-                print('WARN: empty metric %s in namespace %s' %
+                print('WARN: Empty metric %s in namespace %s' %
                       (metric['aws_metric_name'], metric['aws_namespace']))
             else:
                 print('INFO: Metric %s in namespace %s:' %
