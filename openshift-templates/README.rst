@@ -25,7 +25,7 @@ Create a Secret containing the credentials:
 
 Create the new exporter ReplicationController:
 
-This assumes that we have `exporter-config` config map and `exporter-secrets` secrets.
+( This assumes that we have `exporter-config` config map and `exporter-secrets` secrets. )
 
 ::
 
