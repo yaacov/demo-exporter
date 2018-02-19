@@ -2,11 +2,11 @@ Demo Exporter
 =============
 
 Demo Prometheus exporter, simulates a Prometheus exporter with command line arguments, config file and secrets. The `openshift-templates <https://github.com/yaacov/demo-exporter/tree/master/openshift-templates>`_ direcotry includes templates and instructions
-for deployinng the exporter in an openshift cluster. 
+for deployinng the exporter in an openshift cluster.
 
 Running
 =======
-``./demo-exporter/app.py --config demo-exporter/example.yml``
+``./demo-exporter/app.py --config dopenshift-templates/example.yml``
 
 ``curl http://localhost:8080/metrics``
 
@@ -38,7 +38,7 @@ Running as a Container
 ::
 
     docker run -it --rm --name demo-exporter yaacov/demo-exporter
-    
+
 Getting the container ip:
 
 ::
