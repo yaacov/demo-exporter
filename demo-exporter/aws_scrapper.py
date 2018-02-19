@@ -4,8 +4,6 @@ import boto3
 from datetime import datetime, timedelta
 
 
-# We currently put metrics every 5 minutes in baseline and also run the lambda
-# every 5 minutes. So it is OK to check the past 5 minutes for metrics
 SECOUNDS = 300
 
 
