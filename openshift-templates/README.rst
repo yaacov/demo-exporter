@@ -9,6 +9,7 @@ Usage
 =====
 
 Create a ConfigMap containing the configuration file:
+-----------------------------------------------------
 
 ::
 
@@ -16,6 +17,7 @@ Create a ConfigMap containing the configuration file:
     oc create configmap exporter-config --from-file=config.yml
 
 Create a Secret containing the credentials:
+-------------------------------------------
 
 ::
 
