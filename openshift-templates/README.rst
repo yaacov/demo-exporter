@@ -51,10 +51,10 @@ Using AWS CloudWatch
  
 ::
  
-    oc process -f demo-exporter.yml \
+    oc new-app -f demo-exporter.yml \
       -p APPNAME=aws-exporter \
       -p EXPORTER_PORT=9106 \
       -p SECRETPATH=/.aws
-      -p EXPORTER_IMAGE=prom/cloudwatch-exporter | oc delete -f -
+      -p EXPORTER_IMAGE=prom/cloudwatch-exporter
  
 
