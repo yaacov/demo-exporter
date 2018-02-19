@@ -44,10 +44,10 @@ Cleanup an old exporter (Remove all objects):
       -p APPNAME=my-exporter \
       -p EXPORTER_PORT=8080 \
       -p EXPORTER_IMAGE=docker.io/yaacov/demo-exporter:latest | oc delete -f -
-      
- 
- Using AWS CloudWatch
- --------------------
+
+
+Using AWS CloudWatch
+--------------------
  
  ::
  
