@@ -8,7 +8,17 @@ The expoter is defined by it's container image and it's port.
 Usage
 =====
 
-Create a new exporter:
+Create a ConfigMap containing the configuration file:
+
+::
+
+    oc create configmap config --from-file=config.yml
+
+::
+
+    oc describe configmap config
+
+Create the new exporter ReplicationController:
 
 ::
 
