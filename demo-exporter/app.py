@@ -1,9 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import argparse
-import random
 import sys
-import time
 import yaml
 
 from multiprocessing import Process, Manager
@@ -11,6 +9,8 @@ try:
     from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
 except ImportError:
     from http.server import BaseHTTPRequestHandler, HTTPServer
+
+from scrapper import scrapper
 
 """
 Prometheus demo exporter
@@ -37,22 +37,6 @@ class ExportsHandler(BaseHTTPRequestHandler):
 def read_config(filename):
     with open(filename, 'r') as stream:
         return yaml.load(stream)
-
-
-def scrapper(config, data):
-    """
-    Scrape data from some source
-    """
-    while True:
-        for m in config['metrics']:
-            line = "{n}{{dimensions=\"{d}\",region=\"{r}\"}}".format(
-                n=m['aws_metric_name'],
-                d=",".join(m['aws_dimensions']),
-                r=config['region'])
-            data[line] = random.randint(1, 420) / 100.0
-
-        # sleep for 30 sec
-        time.sleep(30)
 
 
 def run(server_class=HTTPServer, handler_class=ExportsHandler, port=PORT):
@@ -82,7 +66,7 @@ if __name__ == "__main__":
         print(e)
         sys.exit(1)
 
-    p = Process(target=scrapper, args=(config, data,))
+    p = Process(target=scrapper, args=(config, data, 30,))
     p.start()
 
     # run server
