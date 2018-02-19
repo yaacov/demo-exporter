@@ -66,6 +66,6 @@ if __name__ == "__main__":
 
     # run server
     try:
-        run(port=args.port)
+        run(port=int(args.port))
     except KeyboardInterrupt:
         sys.exit(1)

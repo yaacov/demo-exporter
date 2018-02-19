@@ -60,6 +60,8 @@ objects:
   spec:
     selector:
       name: ${APPNAME}
+
+    # Replica config
     replicas: 1
     template:
       version: v1
@@ -67,9 +69,27 @@ objects:
         labels:
           name: ${APPNAME}
       spec:
+        # Volumes must be pre congigure
+        #
+        # Mount point shoul be at
+        # /etv/${app name}/config.yml
+        volumes:
+        - name: config
+          configMap:
+            defaultMode: 420
+            name: config
+
         containers:
         - image: ${EXPORTER_IMAGE}
           name: ${APPNAME}
           ports:
           - name: example-http
             containerPort: ${EXPORTER_PORT}
+          env:
+          - name: EXPORTER_PORT
+            value: ${EXPORTER_PORT}
+          - name: EXPORTER_CONFIG
+            value: /etc/${APPNAME}/config.yml
+          volumeMounts:
+          - mountPath: /etc/${APPNAME}
+            name: config
