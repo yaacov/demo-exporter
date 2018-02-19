@@ -25,6 +25,9 @@ parameters:
 - description: The secret path.
   name: SECRETPATH
   value: "/secrets"
+- description: The config path.
+  name: CONFIGPATH
+  value: "/config"
 
 # Scrape config for service endpoints.
 #
@@ -76,7 +79,7 @@ objects:
         # Volumes must be pre congigure
         #
         # Mount point shoud be at
-        # /etc/${app name}/config.yml (default APPNAME=)
+        # /${config path}/config.yml
         # /${secret path}/
         volumes:
         - name: exporter-config
@@ -102,9 +105,9 @@ objects:
           - name: EXPORTER_PORT
             value: ${EXPORTER_PORT}
           - name: EXPORTER_CONFIG
-            value: /etc/${APPNAME}/config.yml
+            value: ${CONFIGPATH}/config.yml
           volumeMounts:
-          - mountPath: /etc/${APPNAME}
+          - mountPath: ${CONFIGPATH}
             name: exporter-config
           - mountPath: ${SECRETPATH}
             name: exporter-secrets
