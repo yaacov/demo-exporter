@@ -29,7 +29,7 @@ class ExportsHandler(BaseHTTPRequestHandler):
         self.send_header('Content-type', 'text/html')
         self.end_headers()
 
-        for (k, v) in dict(data).iteritems():
+        for (k, v) in dict(data).items():
             line = "{k} {v}\n".format(k=k, v=v)
             self.wfile.write(line.encode('utf8'))
 
