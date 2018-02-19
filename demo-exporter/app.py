@@ -1,14 +1,16 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import argparse
-import random
 import sys
 import yaml
 
+from multiprocessing import Process, Manager
 try:
     from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
 except ImportError:
     from http.server import BaseHTTPRequestHandler, HTTPServer
+
+from scrapper import scrapper
 
 """
 Prometheus demo exporter
@@ -20,19 +22,15 @@ CONFIG_FILE = 'example.yml'
 
 
 class ExportsHandler(BaseHTTPRequestHandler):
-    global config
+    global data
 
     def do_GET(self):
         self.send_response(200)
         self.send_header('Content-type', 'text/html')
         self.end_headers()
 
-        for m in config['metrics']:
-            line = "{n}{{dimensions=\"{d}\",region=\"{r}\"}} {v}\n".format(
-                n=m['aws_metric_name'],
-                d=",".join(m['aws_dimensions']),
-                r=config['region'],
-                v=random.randint(1, 420) / 100.0)
+        for (k, v) in dict(data).iteritems():
+            line = "{k} {v}\n".format(k=k, v=v)
             self.wfile.write(line.encode('utf8'))
 
 
@@ -50,6 +48,9 @@ def run(server_class=HTTPServer, handler_class=ExportsHandler, port=PORT):
 
 
 if __name__ == "__main__":
+    manager = Manager()
+    data = manager.dict()
+
     # parse command line args
     parser = argparse.ArgumentParser(description='Prometheus Exporter.')
     parser.add_argument('--config', dest='config', default=CONFIG_FILE,
@@ -65,8 +66,12 @@ if __name__ == "__main__":
         print(e)
         sys.exit(1)
 
+    p = Process(target=scrapper, args=(config, data, 30,))
+    p.start()
+
     # run server
     try:
         run(port=int(args.port))
     except KeyboardInterrupt:
+        p.join()
         sys.exit(1)
