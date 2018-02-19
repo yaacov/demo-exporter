@@ -82,7 +82,7 @@ objects:
         - name: exporter-config
           configMap:
             defaultMode: 420
-            name: config
+            name: exporter-config
         - name: exporter-secrets
           secret:
             secretName: exporter-secrets
