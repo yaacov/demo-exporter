@@ -9,6 +9,6 @@ COPY . .
 
 # set env variables
 ENV EXPORTER_PORT="8080" \
-    EXPORTER_CONFIG="./openshift-templates/example.yml"
+    EXPORTER_CONFIG="./openshift-templates/config.yml"
 
 CMD python ./demo-exporter/app.py --config $EXPORTER_CONFIG --port $EXPORTER_PORT
