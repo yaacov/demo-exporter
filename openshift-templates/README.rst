@@ -15,6 +15,10 @@ Create a ConfigMap containing the configuration file:
     # Create config map
     oc create configmap exporter-config --from-file=config.yml
 
+Create a Secret containing the credentials:
+
+::
+
     # Create secrets
     oc secrets new exporter-secrets config=config credentials=credentials
 
