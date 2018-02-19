@@ -6,7 +6,7 @@ for deployinng the exporter in an openshift cluster.
 
 Running
 =======
-``./demo-exporter/app.py --config dopenshift-templates/example.yml``
+``./demo-exporter/app.py --config openshift-templates/example.yml``
 
 ``curl http://localhost:8080/metrics``
 
