@@ -54,7 +54,8 @@ Using AWS CloudWatch
     oc new-app -f demo-exporter.yml \
       -p APPNAME=aws-exporter \
       -p EXPORTER_PORT=9106 \
-      -p SECRETPATH=/.aws
+      -p SECRETPATH=/.aws \
+      -p CONFIGPATH=/config \
       -p EXPORTER_IMAGE=prom/cloudwatch-exporter
  
 
