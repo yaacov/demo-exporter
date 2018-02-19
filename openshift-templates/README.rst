@@ -49,9 +49,9 @@ Cleanup an old exporter (Remove all objects):
 Using AWS CloudWatch
 --------------------
  
- ::
+::
  
-     oc process -f demo-exporter.yml \
+    oc process -f demo-exporter.yml \
       -p APPNAME=aws-exporter \
       -p EXPORTER_PORT=9106 \
       -p EXPORTER_IMAGE=prom/cloudwatch-exporter | oc delete -f -
