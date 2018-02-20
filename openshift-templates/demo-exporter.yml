@@ -61,7 +61,7 @@ objects:
   metadata:
     name: ${APPNAME}
     labels:
-      team: ${APPNAME}
+      k8s-app: ${APPNAME}
   spec:
     selector:
       matchLabels:
