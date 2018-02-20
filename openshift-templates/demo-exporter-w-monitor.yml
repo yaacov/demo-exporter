@@ -56,6 +56,19 @@ objects:
     - port: 80
       targetPort: example-http
 
+- apiVersion: monitoring.coreos.com/v1
+  kind: ServiceMonitor
+  metadata:
+    name: ${APPNAME}
+    labels:
+      k8s-app: ${APPNAME}
+  spec:
+    selector:
+      matchLabels:
+        name: ${APPNAME}
+    endpoints:
+    - port: example-http
+
 - apiVersion: v1
   kind: ReplicationController
   metadata:
