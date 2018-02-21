@@ -1,5 +1,5 @@
-Add a new Prometheus Exporter to OpenShift
-==========================================
+Template Examples: Exporter with and without a ServiceMonitor
+=============================================================
 
 This folder containes example templates for an exporter:
 
