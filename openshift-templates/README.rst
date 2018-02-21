@@ -7,7 +7,7 @@ This folder containes example templates for an exporter:
 
 - `demo-exporter-w-monitor.yml </openshift-templates/demo-exporter-w-monitor.yml>`_ : Example template for an exporter, will automatically deploy a ServiceMonitor for integration with `Prometheus operator <https://github.com/coreos/prometheus-operator>`_
 
-The expoter is defined by it's container image and it's port.
+The expoter is defined by it's container image and it's port, deployment can include a path for config files and a path for credentials.
 
 Usage
 =====
