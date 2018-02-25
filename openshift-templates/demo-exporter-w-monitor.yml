@@ -43,51 +43,84 @@ objects:
 - apiVersion: v1
   kind: Service
   metadata:
+    labels:
+      app: ${APPNAME}
+      prometheus: k8s
     name: ${APPNAME}
     namespace: "${NAMESPACE}"
-    labels:
-      name: ${APPNAME}
-    annotations:
-      prometheus.io/scrape: "true"
   spec:
+    ports:
+    - name: web
+      port: ${EXPORTER_PORT}
+      protocol: TCP
+      targetPort: web
     selector:
       name: ${APPNAME}
-    ports:
-    - port: 80
-      targetPort: example-http
 
 - apiVersion: monitoring.coreos.com/v1
   kind: ServiceMonitor
   metadata:
-    name: ${APPNAME}
     labels:
+      app: ${APPNAME}
       k8s-app: ${APPNAME}
+    name: ${APPNAME}
+    namespace: "${NAMESPACE}"
   spec:
+    endpoints:
+    - port: web
+    interval: 30s
+    namespaceSelector:
+      matchNames:
+      - "${NAMESPACE}"
     selector:
       matchLabels:
-        name: ${APPNAME}
-    endpoints:
-    - port: example-http
+        prometheus: k8s
 
 - apiVersion: v1
   kind: ReplicationController
   metadata:
+    labels:
+      app: ${APPNAME}
+      k8s-app: ${APPNAME}
     name: ${APPNAME}
     namespace: "${NAMESPACE}"
-    labels:
-      name: ${APPNAME}
   spec:
-    selector:
-      name: ${APPNAME}
-
-    # Replica config
     replicas: 1
+    selector:
+      k8s-app: ${APPNAME}
+
     template:
       version: v1
       metadata:
         labels:
-          name: ${APPNAME}
+          k8s-app: ${APPNAME}
+
       spec:
+        # Exporter containers
+        #
+        # Container Images of the exporter
+        # Serve Prometheus metrics at:
+        #    http://localhost:8080/metrics
+        containers:
+        - image: ${EXPORTER_IMAGE}
+          name: ${APPNAME}
+
+          ports:
+          - name: web
+            protocol: TCP
+            containerPort: ${EXPORTER_PORT}
+
+          env:
+          - name: EXPORTER_PORT
+            value: ${EXPORTER_PORT}
+          - name: EXPORTER_CONFIG
+            value: ${CONFIGPATH}/config.yml
+
+          volumeMounts:
+          - mountPath: ${CONFIGPATH}
+            name: exporter-config
+          - mountPath: ${SECRETPATH}
+            name: exporter-secrets
 
         # Volumes must be pre congigure
         #
@@ -97,30 +130,7 @@ objects:
         volumes:
         - name: exporter-config
           configMap:
-            defaultMode: 420
             name: exporter-config
         - name: exporter-secrets
           secret:
             secretName: exporter-secrets
-
-        # Exporter containers
-        #
-        # Container Images of the exporter
-        # Serve Prometheus metrics at:
-        #    http://localhost:8080/metrics
-        containers:
-        - image: ${EXPORTER_IMAGE}
-          name: ${APPNAME}
-          ports:
-          - name: example-http
-            containerPort: ${EXPORTER_PORT}
-          env:
-          - name: EXPORTER_PORT
-            value: ${EXPORTER_PORT}
-          - name: EXPORTER_CONFIG
-            value: ${CONFIGPATH}/config.yml
-          volumeMounts:
-          - mountPath: ${CONFIGPATH}
-            name: exporter-config
-          - mountPath: ${SECRETPATH}
-            name: exporter-secrets
