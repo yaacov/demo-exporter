@@ -11,4 +11,5 @@ COPY . .
 ENV EXPORTER_PORT="8080" \
     EXPORTER_CONFIG="./openshift-templates/config.yml"
 
-CMD python ./demo-exporter/app.py --config $EXPORTER_CONFIG --port $EXPORTER_PORT
+# -u unbuffered binary stdout and stderr, o/w stdout will not show in oc logs
+CMD python -u ./demo-exporter/app.py --config $EXPORTER_CONFIG --port $EXPORTER_PORT
