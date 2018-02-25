@@ -55,7 +55,7 @@ objects:
       protocol: TCP
       targetPort: web
     selector:
-      name: ${APPNAME}
+      k8s-app: ${APPNAME}
 
 - apiVersion: monitoring.coreos.com/v1
   kind: ServiceMonitor
