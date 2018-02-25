@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 import random
 import time
+from datetime import datetime
 
 
 def scrapper(config, data, sleep=30):
@@ -10,11 +11,20 @@ def scrapper(config, data, sleep=30):
     """
     while True:
         for m in config['metrics']:
-            line = "{n}{{dimensions=\"{d}\",region=\"{r}\"}}".format(
+            dp = [
+                {
+                    "Timestamp": datetime.utcnow(),
+                    "Maximum": random.randint(1, 420) / 100.0,
+                    "Unit": "Percent"
+                },
+            ]
+
+            d = dp[0]
+            line = "{n}{{unit=\"{u}\",region=\"{r}\"}}".format(
                 n=m['aws_metric_name'],
-                d=",".join(m['aws_dimensions']),
+                u=d['Unit'],
                 r=config['region'])
-            data[line] = random.randint(1, 420) / 100.0
+            data[line] = d['Maximum']
 
         # sleep for 30 sec
         time.sleep(sleep)
