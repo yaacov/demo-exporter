@@ -35,7 +35,7 @@ def scrapper(config, data, sleep=30):
             #    aws_dimension_select:
             #      VolumeId: [vol-035faf9767706322e]
             #    aws_statistics: [Maximum]
-            line = '{n}_{n}_{s}{{{u}}}'.format(
+            line = '{ns}_{n}_{s}{{{u}}}'.format(
                 ns=convert(metric['aws_namespace']),
                 n=convert(metric['aws_metric_name']),
                 s=convert(metric['aws_statistics'][0]),
