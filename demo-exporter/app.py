@@ -10,9 +10,6 @@ try:
 except ImportError:
     from http.server import BaseHTTPRequestHandler, HTTPServer
 
-# from aws_scrapper import scrapper
-from scrapper import scrapper
-
 """
 Prometheus demo exporter
 """
@@ -52,25 +49,32 @@ if __name__ == "__main__":
     manager = Manager()
     data = manager.dict()
 
-    # parse command line args
+    # Parse command line args
     parser = argparse.ArgumentParser(description='Prometheus Exporter.')
     parser.add_argument('--config', dest='config', default=CONFIG_FILE,
                         help='config file')
     parser.add_argument('--port', dest='port', default=PORT,
                         help='server port')
+    parser.add_argument('--scraper', dest='scraper', default='demo',
+                        help='scraper backend')
     args = parser.parse_args()
 
-    # read config file
+    # Read config file
     try:
         config = read_config(args.config)
     except Exception as e:
         print(e)
         sys.exit(1)
 
+    if (args.scraper == 'aws'):
+        from aws_scrapper import scrapper
+    else:
+        from scrapper import scrapper
+
     p = Process(target=scrapper, args=(config, data, 30,))
     p.start()
 
-    # run server
+    # Run server
     try:
         run(port=int(args.port))
     except KeyboardInterrupt:
