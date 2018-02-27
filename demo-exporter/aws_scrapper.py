@@ -13,18 +13,6 @@ def scrapper(config, data, sleep=30):
     c = boto3.client('cloudwatch', region_name=config['region'])
 
     while True:
-        # Clear data, before each new scrape
-        for metric in config['metrics']:
-            line = '{n}_{n}_{s}{{{u}}}'.format(
-                ns=convert(metric['aws_namespace']),
-                n=convert(metric['aws_metric_name']),
-                s=metric['aws_statistics'][0],
-                u=get_dimensions_str(metric['aws_dimension_select']))
-
-            if line in data:
-                # del data[line]
-                pass
-
         # Run a new scrape each "sleep" scoundes
         for metric in config['metrics']:
             print('INFO: Reading metric %s from aws_namespace %s [%s]' %
@@ -46,30 +34,34 @@ def scrapper(config, data, sleep=30):
             response = c.get_metric_statistics(**request_args)
             dp = response['Datapoints']
 
+            #  Example, create this line:
+            #    aws_ebs_volume_read_bytes_maximum{volume_id="vol-035faf9767706322e"}
+            #  from this config:
+            #    aws_namespace: AWS/EBS
+            #    aws_metric_name: VolumeReadBytes
+            #    aws_dimensions: [VolumeId]
+            #    aws_dimension_select:
+            #      VolumeId: [vol-035faf9767706322e]
+            #    aws_statistics: [Maximum]
+            line = '{ns}_{n}_{s}{{{u}}}'.format(
+                ns=convert(metric['aws_namespace']),
+                n=convert(metric['aws_metric_name']),
+                s=convert(metric['aws_statistics'][0]),
+                u=get_dimensions_str(metric['aws_dimension_select']))
+
             if len(dp) == 0:
                 print('WARN: Empty metric %s in namespace %s [%s]' %
                       (metric['aws_metric_name'],
                        metric['aws_namespace'],
                        config['region']))
+
+                # Clear data point
+                if line in data:
+                    del data[line]
             else:
                 # Update data with new value
                 # last value is the newset
                 d = dp[-1]
-
-                #  Example, create this line:
-                #    aws_ebs_volume_read_bytes_maximum{volume_id="vol-035faf9767706322e"}
-                #  from this config:
-                #    aws_namespace: AWS/EBS
-                #    aws_metric_name: VolumeReadBytes
-                #    aws_dimensions: [VolumeId]
-                #    aws_dimension_select:
-                #      VolumeId: [vol-035faf9767706322e]
-                #    aws_statistics: [Maximum]
-                line = '{ns}_{n}_{s}{{{u}}}'.format(
-                    ns=convert(metric['aws_namespace']),
-                    n=convert(metric['aws_metric_name']),
-                    s=convert(metric['aws_statistics'][0]),
-                    u=get_dimensions_str(metric['aws_dimension_select']))
                 data[line] = d[metric['aws_statistics'][0]]
 
                 print('INFO: Metric %s in namespace %s [%s]:' %
