@@ -37,7 +37,11 @@ Running as a Container
 
 ::
 
-    docker run -it --rm --name demo-exporter yaacov/demo-exporter
+    docker run -it --rm --name demo-exporter \
+               -e EXPORTER_BACKEND=demo \
+               -v $(readlink -f ~/.aws):/root/.aws:Z \
+               -v $(readlink -f ./openshift-templates):/config:Z \
+               yaacov/demo-exporter
 
 Getting the container ip:
 
