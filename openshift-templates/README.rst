@@ -65,6 +65,8 @@ Cleanup an old exporter (Remove all objects):
 
 ::
 
+    oc delete configmap exporter-config
+    oc delete secrets exporter-secrets
     oc process -f demo-exporter.yml \
       -p APPNAME=my-exporter \
       -p EXPORTER_PORT=8080 \
