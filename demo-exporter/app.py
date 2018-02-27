@@ -56,7 +56,7 @@ if __name__ == "__main__":
     parser.add_argument('--port', dest='port', default=PORT,
                         help='server port')
     parser.add_argument('--scraper', dest='scraper', default='demo',
-                        help='scraper backend')
+                        help='scraper backend [demo or aws]')
     args = parser.parse_args()
 
     # Read config file

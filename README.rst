@@ -16,15 +16,15 @@ Options
 ::
 
     ./demo-exporter/app.py  --help
-    usage: app.py [-h] [--config CONFIG] [--port PORT]
+    usage: app.py [-h] [--config CONFIG] [--port PORT] [--scraper SCRAPER]
 
     Prometheus Exporter.
 
     optional arguments:
-      -h, --help       show this help message and exit
-      --config CONFIG  config file
-      --port PORT      server port
-
+      -h, --help         show this help message and exit
+      --config CONFIG    config file
+      --port PORT        server port
+      --scraper SCRAPER  scraper backend [demo or aws]
 
 Running as a Container
 ======================
