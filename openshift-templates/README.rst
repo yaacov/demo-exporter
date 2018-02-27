@@ -37,17 +37,17 @@ Create a Secret containing the credentials:
 
 Using AWS CloudWatch
 --------------------
- 
+
 ::
- 
-    oc new-app -f demo-exporter.yml \
+
+    oc new-app -f demo-exporter-w-monitor.yml \
       -p APPNAME=aws-exporter \
       -p NAMESPACE=monitoring \
       -p EXPORTER_PORT=9106 \
-      -p SECRETPATH=/.aws \
-      -p CONFIGPATH=/config \
+      -p SECRETPATH=/root/.aws \
+      -p CONFIGPATH=/root/config \
       -p EXPORTER_IMAGE=prom/cloudwatch-exporter
-      
+
 Generic Use
 -----------
 Create the new exporter ReplicationController:
@@ -69,7 +69,3 @@ Cleanup an old exporter (Remove all objects):
       -p APPNAME=my-exporter \
       -p EXPORTER_PORT=8080 \
       -p EXPORTER_IMAGE=docker.io/yaacov/demo-exporter:latest | oc delete -f -
-
-
- 
-
