@@ -45,7 +45,7 @@ Using AWS CloudWatch
       -p NAMESPACE=monitoring \
       -p EXPORTER_PORT=9106 \
       -p SECRETPATH=/root/.aws \
-      -p CONFIGPATH=/root/config \
+      -p CONFIGPATH=/config \
       -p EXPORTER_IMAGE=prom/cloudwatch-exporter
 
 Generic Use
